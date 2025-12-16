@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GT7 Trading Card Generator</title>
+    <title>GT7 Vintage Trading Card</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Courier New', monospace;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: linear-gradient(135deg, #8b7355 0%, #6b5344 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -27,16 +27,17 @@
         }
 
         .input-section {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(245, 235, 220, 0.95);
             padding: 30px;
             border-radius: 15px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 3px solid #8b7355;
         }
 
         h1 {
             text-align: center;
-            color: #1e3c72;
+            color: #4a3728;
             margin-bottom: 20px;
             font-size: 2.5em;
             text-transform: uppercase;
@@ -54,15 +55,16 @@
             flex: 1;
             padding: 15px;
             font-size: 1.1em;
-            border: 3px solid #1e3c72;
+            border: 3px solid #8b7355;
             border-radius: 8px;
             font-family: 'Courier New', monospace;
+            background: #fff;
         }
 
         button {
             padding: 15px 30px;
             font-size: 1.1em;
-            background: #1e3c72;
+            background: #8b7355;
             color: white;
             border: none;
             border-radius: 8px;
@@ -74,7 +76,7 @@
         }
 
         button:hover {
-            background: #2a5298;
+            background: #6b5344;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
@@ -89,176 +91,244 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 500px;
+            min-height: 600px;
         }
 
-        .trading-card {
-            width: 350px;
-            background: linear-gradient(145deg, #f5f5f5, #e0e0e0);
-            border-radius: 20px;
-            padding: 20px;
+        .vintage-card {
+            width: 400px;
+            background: linear-gradient(to bottom, #f5ebe0 0%, #e8dcc8 100%);
+            border-radius: 8px;
+            padding: 0;
             box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            border: 8px solid #d4af37;
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 0 100px rgba(139, 115, 85, 0.1);
+            border: 12px solid #d4c5b0;
             position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.3s;
+            overflow: hidden;
         }
 
-        .trading-card:hover {
-            transform: rotateY(5deg) rotateX(5deg);
+        /* Worn texture overlay */
+        .vintage-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px);
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        /* Worn edges */
+        .vintage-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            box-shadow: 
+                inset 0 0 40px rgba(139, 115, 85, 0.3),
+                inset 0 0 80px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+            border-radius: 8px;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
         }
 
         .card-header {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
+            background: linear-gradient(135deg, #87CEEB, #5F9EA0);
             padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
+            border-radius: 8px 8px 0 0;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            margin: -20px -20px 15px -20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .team-name {
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #4a3728;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Country flag background */
+        .photo-area {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #e8dcc8, #d4c5b0);
+            border: 4px solid #87CEEB;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .flag-background {
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        .driver-placeholder {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: #8b7355;
+        }
+
+        .driver-icon {
+            font-size: 120px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .name-banner {
+            background: linear-gradient(135deg, #87CEEB, #5F9EA0);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
         }
 
         .driver-name {
-            font-size: 1.8em;
-            font-weight: bold;
+            font-size: 1.1em;
+            color: #4a3728;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
-        .psn-name {
-            font-size: 0.9em;
-            opacity: 0.9;
-            margin-bottom: 8px;
-        }
-
-        .country-flag {
-            font-size: 1.5em;
-        }
-
-        .rank-badge {
-            background: linear-gradient(135deg, #d4af37, #f4e5b0);
-            color: #1e3c72;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
-            border: 3px solid #b8941f;
-        }
-
-        .rank-letter {
-            font-size: 4em;
+        .driver-surname {
+            font-size: 2.2em;
             font-weight: bold;
+            color: #2c1810;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.5);
             line-height: 1;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        .rank-label {
-            font-size: 0.8em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 5px;
+        .rank-circle {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #4a3728, #2c1810);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #d4c5b0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .dr-points {
-            font-size: 1.2em;
+        .rank-circle-inner {
+            font-size: 2em;
             font-weight: bold;
-            margin-top: 5px;
+            color: #f5ebe0;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .stat-box {
-            background: white;
-            padding: 12px;
+        .stats-section {
+            background: rgba(255, 255, 255, 0.4);
+            padding: 15px;
             border-radius: 8px;
-            text-align: center;
-            border: 2px solid #1e3c72;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #87CEEB;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #8b7355;
+            font-family: 'Courier New', monospace;
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
         }
 
         .stat-label {
-            font-size: 0.7em;
             text-transform: uppercase;
-            color: #666;
+            font-size: 0.85em;
+            color: #4a3728;
+            font-weight: bold;
             letter-spacing: 1px;
-            margin-bottom: 5px;
         }
 
         .stat-value {
-            font-size: 1.5em;
+            font-size: 1.1em;
             font-weight: bold;
-            color: #1e3c72;
+            color: #2c1810;
         }
 
-        .sr-badge {
-            background: linear-gradient(135deg, #4CAF50, #66BB6A);
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
+        .dr-display {
             text-align: center;
-            font-size: 1.2em;
-            font-weight: bold;
+            margin-top: 12px;
+            padding: 10px;
+            background: linear-gradient(135deg, #87CEEB, #5F9EA0);
+            border-radius: 8px;
+            border: 2px solid #4a3728;
+        }
+
+        .dr-label {
+            font-size: 0.8em;
+            color: #2c1810;
             text-transform: uppercase;
             letter-spacing: 2px;
-            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.4);
+        }
+
+        .dr-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c1810;
         }
 
         .card-footer {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid #d4af37;
+            margin-top: 12px;
             text-align: center;
-            font-size: 0.7em;
-            color: #666;
+            font-size: 0.65em;
+            color: #8b7355;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         .loading {
             text-align: center;
-            color: white;
+            color: #f5ebe0;
             font-size: 1.5em;
         }
 
         .error {
-            background: #f44336;
+            background: #8b4545;
             color: white;
             padding: 20px;
             border-radius: 10px;
             text-align: center;
             font-size: 1.2em;
         }
-
-        .holographic-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 20px;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.1) 50%,
-                transparent 70%
-            );
-            pointer-events: none;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="input-section">
-            <h1>🏁 GT7 Trading Card 🏁</h1>
+            <h1>🏁 GT7 Vintage Card 🏁</h1>
             <div class="input-group">
                 <input 
                     type="text" 
@@ -271,7 +341,7 @@
         </div>
 
         <div class="card-container" id="cardContainer">
-            <div class="loading">Enter a PSN name to generate a card</div>
+            <div class="loading">Enter a PSN name to generate a vintage card</div>
         </div>
     </div>
 
@@ -287,7 +357,6 @@
         };
 
         function getSRRank(sr) {
-            // SR values: 1=E, 2=D, 3=C, 4=B, 5=A, 6=S
             const ranks = {
                 1: 'E',
                 2: 'D', 
@@ -317,7 +386,6 @@
             container.innerHTML = '<div class="loading">⏳ Loading driver data...</div>';
 
             try {
-                // Use Vercel serverless function (update this URL after deployment)
                 const apiUrl = `/api/driver?psn=${psn}`;
                 
                 const response = await fetch(apiUrl);
@@ -338,56 +406,73 @@
                     : 0;
                 
                 const srRank = getSRRank(data.sr);
+                
+                // Split name for vintage style
+                const fullName = data.driver_name || psn;
+                const nameParts = fullName.split(' ');
+                const firstName = nameParts.length > 1 ? nameParts[0] : '';
+                const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : fullName;
 
                 const card = `
-                    <div class="trading-card">
-                        <div class="holographic-effect"></div>
-                        
-                        <div class="card-header">
-                            <div class="driver-name">${data.driver_name || psn}</div>
-                            <div class="psn-name">@${data.psn}</div>
-                            <div class="country-flag">${getCountryFlag(data.countryCode)}</div>
-                        </div>
+                    <div class="vintage-card">
+                        <div class="card-content">
+                            <div class="card-header">
+                                <div class="team-name">Gran Turismo 7</div>
+                            </div>
 
-                        <div class="rank-badge">
-                            <div class="rank-letter">${data.rank}</div>
-                            <div class="rank-label">Driver Rating</div>
-                            <div class="dr-points">${data.dr.toLocaleString()} DR</div>
-                        </div>
+                            <div class="photo-area">
+                                <div class="flag-background">${getCountryFlag(data.countryCode)}</div>
+                                <div class="driver-placeholder">
+                                    <span class="driver-icon">🏎️</span>
+                                    <div style="font-size: 0.9em; text-transform: uppercase; letter-spacing: 2px;">
+                                        @${data.psn}
+                                    </div>
+                                </div>
+                                <div class="rank-circle">
+                                    <div class="rank-circle-inner">${data.rank}</div>
+                                </div>
+                            </div>
 
-                        <div class="stats-grid">
-                            <div class="stat-box">
-                                <div class="stat-label">Races</div>
-                                <div class="stat-value">${data.raceCount.toLocaleString()}</div>
+                            <div class="name-banner">
+                                <div class="driver-name">${firstName}</div>
+                                <div class="driver-surname">${lastName.toUpperCase()}</div>
                             </div>
-                            <div class="stat-box">
-                                <div class="stat-label">Wins</div>
-                                <div class="stat-value">${data.winCount.toLocaleString()}</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-label">Poles</div>
-                                <div class="stat-value">${data.polePositionCount.toLocaleString()}</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-label">Fast Laps</div>
-                                <div class="stat-value">${data.fastestLapCount.toLocaleString()}</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-label">Win Rate</div>
-                                <div class="stat-value">${winRate}%</div>
-                            </div>
-                            <div class="stat-box">
-                                <div class="stat-label">Pole Rate</div>
-                                <div class="stat-value">${poleRate}%</div>
-                            </div>
-                        </div>
 
-                        <div class="sr-badge">
-                            Sportsmanship: ${srRank}
-                        </div>
+                            <div class="stats-section">
+                                <div class="stat-row">
+                                    <span class="stat-label">Races</span>
+                                    <span class="stat-value">${data.raceCount.toLocaleString()}</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Wins</span>
+                                    <span class="stat-value">${data.winCount.toLocaleString()}</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Poles</span>
+                                    <span class="stat-value">${data.polePositionCount.toLocaleString()}</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Fast Laps</span>
+                                    <span class="stat-value">${data.fastestLapCount.toLocaleString()}</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Win Rate</span>
+                                    <span class="stat-value">${winRate}%</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Sportsmanship</span>
+                                    <span class="stat-value">${srRank}</span>
+                                </div>
 
-                        <div class="card-footer">
-                            Gran Turismo 7 • Live Stats
+                                <div class="dr-display">
+                                    <div class="dr-label">Driver Rating</div>
+                                    <div class="dr-value">${data.dr.toLocaleString()} DR</div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                Vintage Racing Card Series • ${data.countryCode}
+                            </div>
                         </div>
                     </div>
                 `;
