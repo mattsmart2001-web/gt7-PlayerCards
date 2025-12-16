@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GT7 Player Card</title>
+    <title>GT7 Vintage Trading Card</title>
     <style>
         * {
             margin: 0;
@@ -185,13 +185,25 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .team-name {
-            font-size: 0.9em;
+        .gt7-logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c1810;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            text-shadow: 
+                2px 2px 0px rgba(255, 255, 255, 0.5),
+                3px 3px 0px rgba(0, 0, 0, 0.2);
+            margin-bottom: 5px;
+        }
+
+        .gt7-subtitle {
+            font-size: 0.65em;
             text-transform: uppercase;
             letter-spacing: 3px;
             color: #4a3728;
             font-weight: bold;
-            margin-bottom: 5px;
         }
 
         /* Country flag background */
@@ -353,6 +365,12 @@
             color: #8b7355;
             text-transform: uppercase;
             letter-spacing: 2px;
+            padding-bottom: 5px;
+        }
+
+        .footer-credit {
+            font-weight: bold;
+            color: #4a3728;
         }
 
         .loading {
@@ -374,7 +392,7 @@
 <body>
     <div class="container">
         <div class="input-section">
-            <h1>🏁 GT7 Player Card 🏁</h1>
+            <h1>🏁 GT7 Vintage Card 🏁</h1>
             <div class="input-group">
                 <input 
                     type="text" 
@@ -387,7 +405,7 @@
         </div>
 
         <div class="card-container" id="cardContainer">
-            <div class="loading">Enter a PSN name to generate a player card</div>
+            <div class="loading">Enter a PSN name to generate a vintage card</div>
         </div>
     </div>
 
@@ -491,7 +509,8 @@
                     <div class="vintage-card">
                         <div class="card-content">
                             <div class="card-header">
-                                <div class="team-name">Gran Turismo 7</div>
+                                <div class="gt7-logo">GT7</div>
+                                <div class="gt7-subtitle">Gran Turismo</div>
                             </div>
 
                             <div class="photo-area">
@@ -540,7 +559,7 @@
                             </div>
 
                             <div class="card-footer">
-                                Vintage Racing Card Series • ${data.countryCode}
+                                Card provided by <span class="footer-credit">SparksTheory</span>
                             </div>
                         </div>
                     </div>
