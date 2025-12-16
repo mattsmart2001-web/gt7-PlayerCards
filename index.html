@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Courier New', monospace;
-            background: linear-gradient(135deg, #8b7355 0%, #6b5344 100%);
+            background: transparent;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -22,39 +22,49 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 100%;
             width: 100%;
         }
 
         .input-section {
             background: rgba(245, 235, 220, 0.95);
-            padding: 30px;
+            padding: 20px;
             border-radius: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             border: 3px solid #8b7355;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         h1 {
             text-align: center;
             color: #4a3728;
-            margin-bottom: 20px;
-            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-size: 1.5em;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.2em;
+                letter-spacing: 1px;
+            }
         }
 
         .input-group {
             display: flex;
             gap: 10px;
-            max-width: 500px;
-            margin: 0 auto;
+            flex-wrap: wrap;
         }
 
         input {
             flex: 1;
-            padding: 15px;
-            font-size: 1.1em;
+            min-width: 200px;
+            padding: 12px;
+            font-size: 1em;
             border: 3px solid #8b7355;
             border-radius: 8px;
             font-family: 'Courier New', monospace;
@@ -62,8 +72,8 @@
         }
 
         button {
-            padding: 15px 30px;
-            font-size: 1.1em;
+            padding: 12px 25px;
+            font-size: 1em;
             background: #8b7355;
             color: white;
             border: none;
@@ -73,6 +83,16 @@
             font-weight: bold;
             text-transform: uppercase;
             transition: all 0.3s;
+        }
+
+        @media (max-width: 600px) {
+            .input-group {
+                flex-direction: column;
+            }
+            
+            input, button {
+                width: 100%;
+            }
         }
 
         button:hover {
@@ -91,11 +111,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 600px;
+            min-height: 400px;
         }
 
         .vintage-card {
-            width: 350px;
+            width: 420px;
+            max-width: 95vw;
             background: linear-gradient(to bottom, #f5ebe0 0%, #e8dcc8 100%);
             border-radius: 8px;
             padding: 0;
@@ -105,6 +126,12 @@
             border: 12px solid #d4c5b0;
             position: relative;
             overflow: hidden;
+        }
+
+        @media (max-width: 600px) {
+            .vintage-card {
+                border-width: 8px;
+            }
         }
 
         /* Worn texture overlay */
@@ -170,11 +197,11 @@
         /* Country flag background */
         .photo-area {
             width: 100%;
-            height: 200px;
+            height: 160px;
             background: linear-gradient(135deg, #e8dcc8, #d4c5b0);
             border: 4px solid #87CEEB;
             border-radius: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -185,12 +212,22 @@
 
         .flag-background {
             position: absolute;
-            font-size: 200px;
+            font-size: 160px;
             opacity: 0.4;
             z-index: 0;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+
+        @media (max-width: 600px) {
+            .photo-area {
+                height: 140px;
+            }
+            
+            .flag-background {
+                font-size: 140px;
+            }
         }
 
         .driver-placeholder {
@@ -364,6 +401,9 @@
             'MX': '🇲🇽', 'AR': '🇦🇷', 'CL': '🇨🇱', 'KR': '🇰🇷', 'CN': '🇨🇳',
             'TH': '🇹🇭', 'SG': '🇸🇬', 'MY': '🇲🇾', 'IN': '🇮🇳', 'AE': '🇦🇪'
         };
+        
+        let autoRefreshInterval = null;
+        let lastPSN = null;
 
         function getSRRank(sr) {
             const ranks = {
@@ -380,9 +420,31 @@
         function getCountryFlag(countryCode) {
             return countryFlags[countryCode] || '🌍';
         }
+        
+        function startAutoRefresh(psn) {
+            // Clear any existing interval
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+            
+            lastPSN = psn;
+            
+            // Set up auto-refresh every 5 minutes (300000ms)
+            autoRefreshInterval = setInterval(() => {
+                console.log('Auto-refreshing card for:', lastPSN);
+                generateCard(lastPSN);
+            }, 300000);
+        }
+        
+        function stopAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+        }
 
-        async function generateCard() {
-            const psn = document.getElementById('psnInput').value.trim();
+        async function generateCard(psnOverride) {
+            const psn = psnOverride || document.getElementById('psnInput').value.trim();
             const container = document.getElementById('cardContainer');
             const btn = document.getElementById('generateBtn');
 
@@ -405,6 +467,9 @@
 
                 const data = await response.json();
                 console.log('API Response:', data);
+                
+                // Start auto-refresh for this PSN
+                startAutoRefresh(psn);
                 
                 const winRate = data.raceCount > 0 
                     ? ((data.winCount / data.raceCount) * 100).toFixed(1)
@@ -484,6 +549,7 @@
                 container.innerHTML = card;
 
             } catch (error) {
+                stopAutoRefresh();
                 container.innerHTML = `
                     <div class="error">
                         ❌ Driver "${psn}" not found<br>
