@@ -116,13 +116,16 @@
             right: 0;
             bottom: 0;
             background-image: 
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px),
-                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px);
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.08) 2px, rgba(0,0,0,.08) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.08) 2px, rgba(0,0,0,.08) 4px),
+                radial-gradient(circle at 20% 30%, rgba(139, 115, 85, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 115, 85, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.05) 0%, transparent 80%);
             pointer-events: none;
-            opacity: 0.5;
+            opacity: 0.8;
         }
 
-        /* Worn edges */
+        /* Worn edges and stains */
         .vintage-card::after {
             content: '';
             position: absolute;
@@ -131,8 +134,10 @@
             right: 0;
             bottom: 0;
             box-shadow: 
-                inset 0 0 40px rgba(139, 115, 85, 0.3),
-                inset 0 0 80px rgba(0, 0, 0, 0.1);
+                inset 0 0 60px rgba(139, 115, 85, 0.5),
+                inset 0 0 100px rgba(0, 0, 0, 0.2),
+                inset 20px 20px 40px rgba(139, 115, 85, 0.3),
+                inset -20px -20px 40px rgba(139, 115, 85, 0.3);
             pointer-events: none;
             border-radius: 8px;
         }
@@ -180,20 +185,24 @@
 
         .flag-background {
             position: absolute;
-            font-size: 200px;
-            opacity: 0.15;
+            font-size: 280px;
+            opacity: 0.4;
             z-index: 0;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .driver-placeholder {
             position: relative;
             z-index: 1;
             text-align: center;
-            color: #8b7355;
+            color: #2c1810;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
         }
 
         .driver-icon {
-            font-size: 120px;
+            font-size: 140px;
             display: block;
             margin-bottom: 10px;
         }
@@ -424,9 +433,6 @@
                                 <div class="flag-background">${getCountryFlag(data.countryCode)}</div>
                                 <div class="driver-placeholder">
                                     <span class="driver-icon">🏎️</span>
-                                    <div style="font-size: 0.9em; text-transform: uppercase; letter-spacing: 2px;">
-                                        @${data.psn}
-                                    </div>
                                 </div>
                                 <div class="rank-circle">
                                     <div class="rank-circle-inner">${data.rank}</div>
@@ -434,6 +440,7 @@
                             </div>
 
                             <div class="name-banner">
+                                <div style="font-size: 0.75em; color: #2c1810; letter-spacing: 1px; margin-bottom: 3px;">@${data.psn}</div>
                                 <div class="driver-name">${firstName}</div>
                                 <div class="driver-surname">${lastName.toUpperCase()}</div>
                             </div>
