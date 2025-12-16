@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GT7 Trading Card Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .input-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        input {
+            flex: 1;
+            padding: 15px;
+            font-size: 1.1em;
+            border: 3px solid #1e3c72;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            background: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #2a5298;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        button:disabled {
+            background: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+        }
+
+        .trading-card {
+            width: 350px;
+            background: linear-gradient(145deg, #f5f5f5, #e0e0e0);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 8px solid #d4af37;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.3s;
+        }
+
+        .trading-card:hover {
+            transform: rotateY(5deg) rotateX(5deg);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .driver-name {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .psn-name {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .country-flag {
+            font-size: 1.5em;
+        }
+
+        .rank-badge {
+            background: linear-gradient(135deg, #d4af37, #f4e5b0);
+            color: #1e3c72;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            border: 3px solid #b8941f;
+        }
+
+        .rank-letter {
+            font-size: 4em;
+            font-weight: bold;
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .rank-label {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        .dr-points {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #1e3c72;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-label {
+            font-size: 0.7em;
+            text-transform: uppercase;
+            color: #666;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .sr-badge {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.4);
+        }
+
+        .card-footer {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #d4af37;
+            text-align: center;
+            font-size: 0.7em;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .error {
+            background: #f44336;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .holographic-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 70%
+            );
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input-section">
+            <h1>🏁 GT7 Trading Card 🏁</h1>
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="psnInput" 
+                    placeholder="Enter PSN Name..." 
+                    onkeypress="if(event.key==='Enter') generateCard()"
+                >
+                <button onclick="generateCard()" id="generateBtn">Generate</button>
+            </div>
+        </div>
+
+        <div class="card-container" id="cardContainer">
+            <div class="loading">Enter a PSN name to generate a card</div>
+        </div>
+    </div>
+
+    <script>
+        const countryFlags = {
+            'GB': '🇬🇧', 'US': '🇺🇸', 'JP': '🇯🇵', 'DE': '🇩🇪', 'FR': '🇫🇷',
+            'IT': '🇮🇹', 'ES': '🇪🇸', 'BR': '🇧🇷', 'AU': '🇦🇺', 'CA': '🇨🇦',
+            'NL': '🇳🇱', 'BE': '🇧🇪', 'CH': '🇨🇭', 'AT': '🇦🇹', 'SE': '🇸🇪',
+            'NO': '🇳🇴', 'DK': '🇩🇰', 'FI': '🇫🇮', 'PL': '🇵🇱', 'PT': '🇵🇹',
+            'GR': '🇬🇷', 'CZ': '🇨🇿', 'RU': '🇷🇺', 'ZA': '🇿🇦', 'NZ': '🇳🇿',
+            'MX': '🇲🇽', 'AR': '🇦🇷', 'CL': '🇨🇱', 'KR': '🇰🇷', 'CN': '🇨🇳',
+            'TH': '🇹🇭', 'SG': '🇸🇬', 'MY': '🇲🇾', 'IN': '🇮🇳', 'AE': '🇦🇪'
+        };
+
+        function getSRRank(sr) {
+            const ranks = ['E', 'D', 'C', 'B', 'A', 'S'];
+            return sr >= 0 && sr < ranks.length ? ranks[sr] : 'E';
+        }
+
+        function getCountryFlag(countryCode) {
+            return countryFlags[countryCode] || '🌍';
+        }
+
+        async function generateCard() {
+            const psn = document.getElementById('psnInput').value.trim();
+            const container = document.getElementById('cardContainer');
+            const btn = document.getElementById('generateBtn');
+
+            if (!psn) {
+                alert('Please enter a PSN name');
+                return;
+            }
+
+            btn.disabled = true;
+            container.innerHTML = '<div class="loading">⏳ Loading driver data...</div>';
+
+            try {
+                // Use Vercel serverless function (update this URL after deployment)
+                const apiUrl = `/api/driver?psn=${psn}`;
+                
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error('Driver not found');
+                }
+
+                const data = await response.json();
+                console.log('API Response:', data);
+                
+                const winRate = data.raceCount > 0 
+                    ? ((data.winCount / data.raceCount) * 100).toFixed(1)
+                    : 0;
+
+                const poleRate = data.raceCount > 0
+                    ? ((data.polePositionCount / data.raceCount) * 100).toFixed(1)
+                    : 0;
+
+                const card = `
+                    <div class="trading-card">
+                        <div class="holographic-effect"></div>
+                        
+                        <div class="card-header">
+                            <div class="driver-name">${data.driver_name || psn}</div>
+                            <div class="psn-name">@${data.psn}</div>
+                            <div class="country-flag">${getCountryFlag(data.countryCode)}</div>
+                        </div>
+
+                        <div class="rank-badge">
+                            <div class="rank-letter">${data.rank}</div>
+                            <div class="rank-label">Driver Rating</div>
+                            <div class="dr-points">${data.dr.toLocaleString()} DR</div>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div class="stat-label">Races</div>
+                                <div class="stat-value">${data.raceCount.toLocaleString()}</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Wins</div>
+                                <div class="stat-value">${data.winCount.toLocaleString()}</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Poles</div>
+                                <div class="stat-value">${data.polePositionCount.toLocaleString()}</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Fast Laps</div>
+                                <div class="stat-value">${data.fastestLapCount.toLocaleString()}</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Win Rate</div>
+                                <div class="stat-value">${winRate}%</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">Pole Rate</div>
+                                <div class="stat-value">${poleRate}%</div>
+                            </div>
+                        </div>
+
+                        <div class="sr-badge">
+                            Sportsmanship: ${getSRRank(data.sr)}
+                        </div>
+
+                        <div class="card-footer">
+                            Gran Turismo 7 • Live Stats
+                        </div>
+                    </div>
+                `;
+
+                container.innerHTML = card;
+
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="error">
+                        ❌ Driver "${psn}" not found<br>
+                        <small>Check the spelling and try again</small>
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
