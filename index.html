@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GT7 Vintage Trading Card</title>
+    <title>GT7 Player Trading Card</title>
     <style>
         * {
             margin: 0;
@@ -109,6 +109,7 @@
 
         .card-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 400px;
@@ -373,6 +374,39 @@
             color: #4a3728;
         }
 
+        .download-btn {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .download-btn button {
+            padding: 12px 30px;
+            font-size: 0.9em;
+            background: linear-gradient(135deg, #87CEEB, #5F9EA0);
+            color: #2c1810;
+            border: 3px solid #4a3728;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn button:hover {
+            background: linear-gradient(135deg, #5F9EA0, #87CEEB);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-btn button:disabled {
+            background: #999;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.5;
+        }
+
         .loading {
             text-align: center;
             color: #f5ebe0;
@@ -405,7 +439,7 @@
         </div>
 
         <div class="card-container" id="cardContainer">
-            <div class="loading">Enter a PSN name to generate a vintage card</div>
+            <div class="loading">Enter a PSN name to generate a player card</div>
         </div>
     </div>
 
@@ -458,6 +492,43 @@
             if (autoRefreshInterval) {
                 clearInterval(autoRefreshInterval);
                 autoRefreshInterval = null;
+            }
+        }
+
+        async function downloadCard() {
+            const card = document.querySelector('.vintage-card');
+            if (!card) {
+                alert('Please generate a card first!');
+                return;
+            }
+
+            try {
+                // Use html2canvas library
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+                
+                script.onload = async () => {
+                    const canvas = await html2canvas(card, {
+                        backgroundColor: null,
+                        scale: 2, // Higher quality
+                        logging: false
+                    });
+                    
+                    // Convert to blob and download
+                    canvas.toBlob((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.download = `gt7-card-${lastPSN || 'driver'}.png`;
+                        link.href = url;
+                        link.click();
+                        URL.revokeObjectURL(url);
+                    });
+                };
+                
+                document.head.appendChild(script);
+            } catch (error) {
+                console.error('Download error:', error);
+                alert('Failed to download card. Please try again.');
             }
         }
 
@@ -566,6 +637,12 @@
                 `;
 
                 container.innerHTML = card;
+                
+                // Add download button
+                const downloadDiv = document.createElement('div');
+                downloadDiv.className = 'download-btn';
+                downloadDiv.innerHTML = '<button onclick="downloadCard()">📥 Download Card</button>';
+                container.appendChild(downloadDiv);
 
             } catch (error) {
                 stopAutoRefresh();
