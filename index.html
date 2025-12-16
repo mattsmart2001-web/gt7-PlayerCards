@@ -287,8 +287,16 @@
         };
 
         function getSRRank(sr) {
-            const ranks = ['E', 'D', 'C', 'B', 'A', 'S'];
-            return sr >= 0 && sr < ranks.length ? ranks[sr] : 'E';
+            // SR values: 1=E, 2=D, 3=C, 4=B, 5=A, 6=S
+            const ranks = {
+                1: 'E',
+                2: 'D', 
+                3: 'C',
+                4: 'B',
+                5: 'A',
+                6: 'S'
+            };
+            return ranks[sr] || 'E';
         }
 
         function getCountryFlag(countryCode) {
@@ -328,6 +336,8 @@
                 const poleRate = data.raceCount > 0
                     ? ((data.polePositionCount / data.raceCount) * 100).toFixed(1)
                     : 0;
+                
+                const srRank = getSRRank(data.sr);
 
                 const card = `
                     <div class="trading-card">
@@ -373,7 +383,7 @@
                         </div>
 
                         <div class="sr-badge">
-                            Sportsmanship: ${getSRRank(data.sr)}
+                            Sportsmanship: ${srRank}
                         </div>
 
                         <div class="card-footer">
