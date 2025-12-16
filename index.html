@@ -95,7 +95,7 @@
         }
 
         .vintage-card {
-            width: 400px;
+            width: 350px;
             background: linear-gradient(to bottom, #f5ebe0 0%, #e8dcc8 100%);
             border-radius: 8px;
             padding: 0;
@@ -170,7 +170,7 @@
         /* Country flag background */
         .photo-area {
             width: 100%;
-            height: 280px;
+            height: 200px;
             background: linear-gradient(135deg, #e8dcc8, #d4c5b0);
             border: 4px solid #87CEEB;
             border-radius: 8px;
@@ -185,7 +185,7 @@
 
         .flag-background {
             position: absolute;
-            font-size: 280px;
+            font-size: 200px;
             opacity: 0.4;
             z-index: 0;
             top: 50%;
@@ -202,9 +202,9 @@
         }
 
         .driver-icon {
-            font-size: 140px;
+            font-size: 0px;
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 0px;
         }
 
         .name-banner {
@@ -256,7 +256,7 @@
 
         .stats-section {
             background: rgba(255, 255, 255, 0.4);
-            padding: 15px;
+            padding: 12px;
             border-radius: 8px;
             border: 2px solid #87CEEB;
         }
@@ -264,7 +264,7 @@
         .stat-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 6px 0;
             border-bottom: 1px dashed #8b7355;
             font-family: 'Courier New', monospace;
         }
@@ -275,44 +275,44 @@
 
         .stat-label {
             text-transform: uppercase;
-            font-size: 0.85em;
+            font-size: 0.8em;
             color: #4a3728;
             font-weight: bold;
             letter-spacing: 1px;
         }
 
         .stat-value {
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: bold;
             color: #2c1810;
         }
 
         .dr-display {
             text-align: center;
-            margin-top: 12px;
-            padding: 10px;
+            margin-top: 10px;
+            padding: 8px;
             background: linear-gradient(135deg, #87CEEB, #5F9EA0);
             border-radius: 8px;
             border: 2px solid #4a3728;
         }
 
         .dr-label {
-            font-size: 0.8em;
+            font-size: 0.75em;
             color: #2c1810;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
         .dr-value {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: bold;
             color: #2c1810;
         }
 
         .card-footer {
-            margin-top: 12px;
+            margin-top: 10px;
             text-align: center;
-            font-size: 0.65em;
+            font-size: 0.6em;
             color: #8b7355;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -431,9 +431,6 @@
 
                             <div class="photo-area">
                                 <div class="flag-background">${getCountryFlag(data.countryCode)}</div>
-                                <div class="driver-placeholder">
-                                    <span class="driver-icon">🏎️</span>
-                                </div>
                                 <div class="rank-circle">
                                     <div class="rank-circle-inner">${data.rank}</div>
                                 </div>
